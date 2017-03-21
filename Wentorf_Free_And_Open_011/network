@@ -1,0 +1,12 @@
+
+config interface 'mesh_lan'               
+        option ifname 'eth0.8'            
+        option macaddr 'SOMEFANCYMACADDRESS'
+        option mesh 'bat0'                      
+        option proto 'batadv'                   
+        option auto '1'                         
+
+config interface 'wan'                          
+        option ifname 'eth0.7'                  
+        option auto '1'                         
+

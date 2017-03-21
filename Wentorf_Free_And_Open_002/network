@@ -1,0 +1,131 @@
+
+config interface 'loopback'
+	option ifname 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix 'fdcc:2f53:4da1::/48'
+
+config interface 'wan6'
+	option proto 'dhcpv6'
+	option ifname 'br-wan'
+	option ip6table '1'
+	option peerdns '0'
+	option sourcefilter '0'
+
+config switch
+	option name 'switch0'
+	option reset '1'
+	option enable_vlan '1'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '1'
+	option ports '0t 3t 4 5'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '2'
+	option ports '0t 1'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '7'
+	option ports '2 3t'
+
+config interface 'wan'
+	option ifname 'eth0.2'
+	option auto '1'
+	option peerdns '0'
+	option type 'bridge'
+	option proto 'dhcp'
+	option multicast_querier '0'
+	option macaddr 'ba:9c:05:38:e7:08'
+
+config rule6 'wan6_lookup'
+	option mark '0x01/0x01'
+	option lookup '1'
+
+config route6 'wan6_unreachable'
+	option type 'unreachable'
+	option table '1'
+	option target '::/0'
+	option metric '65535'
+	option gateway '::'
+	option interface 'loopback'
+
+config interface 'client'
+	option reqprefix 'no'
+	option proto 'dhcpv6'
+	option type 'bridge'
+	option macaddr '64:66:b3:a2:43:64'
+	option peerdns '1'
+	option sourcefilter '0'
+	option robustness '3'
+	option query_interval '2000'
+	option query_response_interval '500'
+	list ifname 'bat0'
+
+config interface 'mesh_wan'
+	option auto '0'
+	option ifname 'br-wan'
+	option proto 'gluon_mesh'
+	option fixed_mtu '1'
+
+config interface 'mesh_lan'
+	option ifname 'eth0.1'
+	option mesh 'bat0'
+	option auto '1'
+	option igmp_snooping '0'
+	option transitive '1'
+	option fixed_mtu '1'
+	option proto 'gluon_mesh'
+	option type 'bridge'
+	option macaddr 'ba:9c:05:38:e7:0c'
+
+config interface 'mesh_vpn'
+	option ifname 'mesh-vpn'
+	option mesh_no_rebroadcast '1'
+	option mesh 'bat0'
+	option transitive '1'
+	option macaddr 'ba:9c:05:38:e7:0f'
+	option fixed_mtu '1'
+	option proto 'gluon_mesh'
+
+config device 'local_node_dev'
+	option macaddr '00:5b:27:80:00:01'
+	option ifname 'br-client'
+	option name 'local-node'
+	option type 'macvlan'
+
+config interface 'local_node'
+	option ifname 'local-node'
+	option ipaddr '10.144.0.1'
+	option ip6addr 'fddf:0bf7:80::a38:1/128'
+	option netmask '255.255.240.0'
+	option proto 'static'
+
+config route6 'local_node_route6'
+	option target 'fddf:0bf7:80::/64'
+	option gateway '::'
+	option interface 'client'
+
+config interface 'mesh_radio0'
+	option proto 'gluon_mesh'
+
+config interface 'mesh_radio1'
+	option proto 'gluon_mesh'
+
+config interface 'bat0'
+	option multicast_router '2'
+	option ifname 'bat0'
+	option macaddr '64:66:b3:a2:43:64'
+	option learning '0'
+	option proto 'none'
+
+config interface 'client_lan'
+	option unicast_flood '0'
+	option ifname 'eth0.1'
+
