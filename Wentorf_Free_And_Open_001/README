@@ -1,0 +1,2 @@
+Knoten "Wentorf_Free_And_Open_001" (Futro unmodifiziert, nur die eingebaute Netzwerkkarte)
+Uplink zum DSL Router über VLAN 7, Mesh on LAN über VLAN 1, beide auf dem gleichen pyhsikalischen Interface.

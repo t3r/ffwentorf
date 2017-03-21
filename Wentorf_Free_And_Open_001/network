@@ -17,6 +17,7 @@ config globals 'globals'
 
 config interface 'wan'
 	option igmp_snooping '0'
+	# WAN-Traffic über VLAN7 senden/empfangen
 	option ifname 'eth0.7'
 	option auto '1'
 	option peerdns '0'
@@ -82,6 +83,7 @@ config route6 'local_node_route6'
 	option gateway '::'
 	option interface 'client'
 
+# mesh on lan einstellen über VLAN1
 config interface 'mesh_lan'
 	option ifname 'eth0.1'
 	option macaddr 'B6:28:29:B9:B2:6C'
